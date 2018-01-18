@@ -1,0 +1,81 @@
+<html>
+<head>
+  <script src="zepto.js"></script>
+  <script src="interface.js"></script>
+</head>
+<body>
+  <script>
+  panel = new Interface.Panel({ useRelativeSizesAndPositions:true });// panel fills page by default, alternatively you can specify boundaries
+  
+  slider1 = new Interface.Slider({
+    bounds: [0,0,.1,.5],
+    label:'Slider',
+    value:.5,
+    ontouchmousestart : function() { console.log('touch or mouse down on slider') }
+  });
+
+  console.log(slider1.value);
+
+  /*Interface.Panel.mouseEvent(function(event)
+    {
+      console.log(slider1.value);
+    }
+    );
+*/
+
+
+  
+  slider2 = new Interface.Slider({
+  bounds:[.1,.0,.1,.5 ], 
+  label: 'horizontal slider',  
+  isVertical:false, 
+  value:.5,
+  });
+
+var button1 = new Interface.Button({ 
+  bounds:[.3,0,.1,.5],  
+  label:'toggle'  
+});
+
+var button2 = new Interface.Button({ 
+  bounds:[.4,.0,.1,.5],
+  label:'momentary',
+  mode:'momentary'  
+});
+
+var knob1 = new Interface.Knob({ 
+  bounds:[.6,0,.2],
+  label:'Knob with Rotation controls',
+  value:.5,
+  usesRotation:true,
+  centerZero: false,
+});
+
+var knob2 = new Interface.Knob({ 
+  bounds:[.8,0,.2],
+  label:'Knob with Vertical controls',
+  value: 0,
+  usesRotation:false,
+  centerZero: false,
+});
+  
+  panel.add( slider1, slider2, button1, button2, knob1, knob2);
+  
+  orientation = new Interface.Orientation({ // this only works on devices with a gyro sensor
+    onvaluechange : function(pitch, roll, yaw) {
+      slider2.setValue(pitch);
+    }
+  })
+  orientation.start()
+
+
+// Interface.Presets.save ("test");
+// console.log(localStorage.getItem("interfacejs"));
+// var obj = JSON.parse(localStorage.getItem("interfacejs"));
+// console.log(obj.test);  
+
+panel.children.forEach(ele => console.log(ele.value));
+  
+  </script>
+</body>
+</html>
